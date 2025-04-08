@@ -1,0 +1,182 @@
+:root {
+
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+.visually-hidden {
+    position: absolute      !important;
+    width: 1px              !important;
+    height: 1px             !important;
+    margin: -1px            !important;
+    border: 0               !important;
+    padding: 0              !important;
+    white-space: nowrap     !important;
+    clip-path: inset(100%)  !important;
+    clip: rect(0 0 0 0)     !important;
+    overflow: hidden        !important;
+}
+
+.videoplayer {
+    --width: 1024px;
+    position: relative;
+    width: var(--width);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+
+    &__header {}
+
+    &__video {
+
+        &::-webkit-media-controls,
+        &::-webkit-media-controls-enclosure {
+            display: none !important;
+        }
+    }
+
+    &__controllers {
+        transition-duration: .5s;
+        position: absolute;
+        bottom: 0;
+    }
+
+    &__footer {}
+
+    &:fullscreen {
+        width: 100vw !important;
+        height: 100vh !important;
+        background: #000;
+    }
+}
+
+.controllers {
+    --color: rgb(200 200 200);
+    --color-alt: rgb(255 255 255);
+    width: 100%;
+    padding: 1.3rem 1.5rem 1rem;
+    background-color: rgb(0 0 0 / 0.7);
+    color: var(--color);
+    display: grid;
+    grid-template-columns: auto auto 1fr auto;
+    grid-template-areas:
+        "timeline timeline timeline timeline"
+        "play-pause sound timestamp fullscreen-smallscreen";
+    align-items: center;
+    column-gap: 1rem;
+    row-gap: 0.5rem;
+
+    &__sound {
+        column-gap: inherit;
+        grid-area: sound;
+    }
+
+    &__button {
+        background-color: transparent;
+        border: none;
+        color: var(--color);
+        cursor: pointer;
+        transition-duration: .3s;
+
+        &:hover {
+            color: var(--color-alt);
+        }
+
+        & svg {
+            display: block;
+            aspect-ratio: 1;
+            width: 1.2rem;
+            fill: currentColor;
+        }
+
+        &--play-pause {
+            grid-area: play-pause;
+        }
+
+        &--mute-unmute {}
+
+        &--fullscreen-smallscreen {
+            grid-area: fullscreen-smallscreen;
+        }
+    }
+
+    &__range {
+        --width: 4rem;
+        --height: .6rem;
+        --filled: 50%;
+        --filled-color: #b4ddff;
+        --unfilled-color: var(--color);
+        --thumb-border-color: #0787f0;
+        --thumb-bg-color: var(--color-alt);
+
+        -webkit-appearance: none;
+        height: var(--height);
+        border-radius: var(--height);
+        color: inherit;
+        background-color: currentColor;
+        cursor: pointer;
+
+        &::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            height: var(--height);
+            aspect-ratio: 3 / 2;
+            background-color: var(--thumb-bg-color);
+            border: 2px solid var(--thumb-border-color);
+            border-radius: var(--height);
+        }
+
+        &::-webkit-slider-runnable-track {
+            background: linear-gradient(to right, var(--filled-color) var(--filled), var(--unfilled-color) 0);
+            height: var(--height);
+            border-radius: var(--height);
+        }
+            
+        &-volume {
+            width: var(--width);
+        }
+
+        &-timestamp {
+            grid-area: timeline;
+        }
+
+        &-label {
+            
+            &-volume {
+                width: 2.5rem;
+                text-align: center;
+            }
+
+            &-timestamp {
+                grid-area: timestamp;
+            }
+        }
+    }
+
+}
+
+.sound {
+    transition-duration: .3s;
+    display: flex;
+    align-items: center;
+    column-gap: 0;
+
+    &__hidden-item {
+        transition-duration: .3s;
+        overflow: hidden;
+        width: 0;
+        opacity: 0;
+    }
+
+    &:hover {
+        column-gap: inherit;
+    }
+
+    &:hover &__hidden-item {
+        width: var(--width);
+        opacity: 1;
+    }
+}
